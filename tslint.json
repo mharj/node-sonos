@@ -1,0 +1,18 @@
+{
+	"extends": [
+		"tslint:recommended"
+	],
+	"linterOptions": {
+		"exclude": [
+			"./**/*.js",
+			"node_modules/**/*.ts"
+		],
+		"include": [
+			"test/*.ts"
+		]
+	},
+	"rules": {
+		"max-line-length": [false],
+		"no-empty": [false]
+	}
+}

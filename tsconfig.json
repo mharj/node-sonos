@@ -1,0 +1,27 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"target": "es2017",
+		"lib": ["es2017", "dom"],
+		"rootDir": "./",
+		"outDir": "./dist",
+		"moduleResolution": "node",
+		"sourceRoot": "./src",
+		"types": ["node"],
+		"declaration": false,
+		"removeComments": false,
+		"inlineSources": true,
+		"inlineSourceMap": true,
+		"forceConsistentCasingInFileNames": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"importHelpers": true,
+		"strictNullChecks": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"noUnusedLocals": true,
+		"strictBindCallApply": true,
+		"allowJs": false,
+	},
+	"include": ["./**/*.ts"]
+}
