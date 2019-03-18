@@ -4,10 +4,11 @@
   "description": "Node.js Sonos Interface",
   "main": "index.js",
   "scripts": {
-	"lint": "standard",
-	"tslint": "tslint --project ./tsconfig.json",
-    "test": "npm run lint && mocha test/sonos.test.js --exit --timeout 10000",
-    "test-ts": "npm run tslint && mocha --require ts-node/register --require source-map-support/register test/sonos.test.ts --exit --timeout 10000",
+    "lint": "standard",
+    "tslint": "tslint --project ./tsconfig.json",
+    "test": "npm run lint && npm run tslint && npm run test-js && npm run test-ts",
+    "test-ts": "mocha --require ts-node/register --require source-map-support/register test/sonos.test.ts --exit --timeout 10000",
+    "test-js": "mocha test/sonos.test.js --exit --timeout 10000",
     "env-run": "npm run $CMD",
     "semantic-release": "semantic-release",
     "docs": "jsdox -t ./docs/generator/templates --output docs lib/ && jsdox -t ./docs/generator/templates --output docs/services lib/services && jsdox -t ./docs/generator/templates --output docs/events lib/events"

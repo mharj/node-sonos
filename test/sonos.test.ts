@@ -40,7 +40,7 @@ const mockRequest = (
     .reply(200, generateResponse(responseTag, serviceName, responseBody));
 };
 
-describe("Sonos", () => {
+describe("Sonos with TS-Node", () => {
   describe("play()", () => {
     it("should generate play command", () => {
       mockRequest(
