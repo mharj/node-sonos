@@ -33,12 +33,12 @@ export class DeviceSubscription {
   public headerToDateTime(timeout: string): number;
 }
 // https://github.com/bencevans/node-sonos/blob/master/lib/events/adv-listener.js#L34
-export class Listener {
-  public startListener(): void;
-  public stopListener(): Promise<void>;
-  public isListening(): boolean;
-  public subscribeTo(device: Sonos): Promise<boolean>;
-  // TODO rest
+export namespace Listener {
+	function startListener(): void;
+	function stopListener(): Promise<void>;
+	function isListening(): boolean;
+	function subscribeTo(device: Sonos): Promise<boolean>;
+	// TODO rest
 }
 export class Sonos {
   constructor(host: string, port?: number, options?: ISonosOptions);
