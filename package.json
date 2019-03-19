@@ -42,6 +42,7 @@
   ],
   "files": [
     "index.js",
+    "index.d.ts",
     "lib"
   ],
   "license": "MIT",
