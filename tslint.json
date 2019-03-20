@@ -1,18 +1,13 @@
 {
-	"extends": [
-		"tslint:recommended"
-	],
-	"linterOptions": {
-		"exclude": [
-			"./**/*.js",
-			"node_modules/**/*.ts"
-		],
-		"include": [
-			"test/*.ts"
-		]
-	},
-	"rules": {
-		"max-line-length": [false],
-		"no-empty": [false]
-	}
+  "extends": ["tslint:recommended"],
+  "linterOptions": {
+    "exclude": ["./**/*.js", "node_modules/**/*.ts"],
+    "include": ["test/*.ts"]
+  },
+  "rules": {
+    "max-line-length": [false],
+    "quotemark": [true, "double", "avoid-escape", "avoid-template"],
+    "no-console": [false],
+    "no-empty": [false]
+  }
 }

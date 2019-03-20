@@ -47,10 +47,10 @@ export class Sonos {
   public leaveGroup(): Promise<boolean>;
   public joinGroup(otherDeviceName: string): Promise<boolean>;
   // library methods
-  public getMusicLibrary(): Promise<ISonosItemResponse>;
+  public getMusicLibrary(searchType: string, requestOptions?: { start?: number; total: number }): Promise<ISonosItemResponse>;
   public searchMusicLibrary(
-    searchType: searchTypes,
-    searchTerm: string,
+    searchType: string,
+    searchTerm?: string,
     requestOptions?: { start?: number; total: number },
     separator?: string
   ): Promise<ISonosItemResponse>;
@@ -69,7 +69,7 @@ export class Sonos {
   }>;
   public deletePlaylist(playlistId: number): Promise<void>;
   public addToPlaylist(
-    playlistId: number,
+    playlistId: string,
     uri: string
   ): Promise<{
     NumTracksAdded: number;
@@ -181,8 +181,16 @@ interface ISonosOptions {
   spotify?: ISonosOptionsSpotify;
 }
 
+interface ISonosItem {
+  title: string; 
+  uri: string;
+  artist: string | null;
+  album: string | null;
+  albumArtURI: string | null;
+}
 interface ISonosItemResponse {
   returned: string;
   total: string;
-  items: { title: string; uri: string }[];
+  updateID: string;
+  items: ISonosItem[];
 }

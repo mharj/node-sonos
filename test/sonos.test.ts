@@ -422,7 +422,7 @@ describe("Sonos with TS-Node", () => {
 
       const sonos = new Sonos("localhost", 1400);
 
-      await sonos.addToPlaylist(1, "x-file-cifs://localhost/Music/Song.mp3");
+      await sonos.addToPlaylist("1", "x-file-cifs://localhost/Music/Song.mp3");
       scope.done();
     });
 
@@ -446,7 +446,7 @@ describe("Sonos with TS-Node", () => {
       const sonos = new Sonos("localhost", 1400);
 
       await sonos.addToPlaylist(
-        1,
+        "1",
         "x-rincon-playlist://localhost/Music/Album#A:ALBUMS/MyAlbum",
       );
       scope.done();
@@ -472,7 +472,7 @@ describe("Sonos with TS-Node", () => {
       const sonos = new Sonos("localhost", 1400);
 
       await sonos.addToPlaylist(
-        1,
+        "1",
         "x-rincon-playlist://localhost/Music/AlbumArtist#A:ALBUMARTIST/My Album Artist",
       );
       scope.done();
@@ -497,7 +497,7 @@ describe("Sonos with TS-Node", () => {
       const sonos = new Sonos("localhost", 1400);
 
       await sonos.addToPlaylist(
-        1,
+        "1",
         "x-rincon-playlist://localhost/Music/Genre#A:GENRE/MyGenre",
       );
       scope.done();
@@ -581,11 +581,23 @@ describe("DeviceDiscovery", () => {
 
 describe("SonosDevice", () => {
   let sonos: SONOS.Sonos;
-  before(function() {
+  before(async function() {
     if (!process.env.SONOS_HOST) {
       this.skip();
     } else {
       sonos = new Sonos(process.env.SONOS_HOST, 1400);
+    }
+    // create playlist for unit testing
+    // const sonosPlaylistElement = await sonos.searchMusicLibrary("sonos_playlists");
+    const playList = await sonos.getMusicLibrary("sonos_playlists");
+    console.log(playList);
+    if ( ! playList.items.find((i) => i.title === "_unit_testing_")  ) {
+      const playListElement = await sonos.createPlaylist("_unit_testing_");
+      const trackEntity = await sonos.getMusicLibrary("tracks", {total: 1});
+      if ( parseInt(trackEntity.returned, 10) < 1 ) {
+        this.skip(); // as no tracks found
+      }
+      await sonos.addToPlaylist(playListElement.AssignedObjectID.split(":")[1], trackEntity.items[0].uri);
     }
   });
 
@@ -663,5 +675,12 @@ describe("SonosDevice", () => {
     return sonos.getAllGroups().then((groups) => {
       assert(Array.isArray(groups), "should return an array");
     });
+  });
+  after(async function() {
+    if (!process.env.SONOS_HOST) {
+      this.skip();
+    } else {
+      // console.log( await sonos.getMusicLibrary('playlist'));
+    }
   });
 });
