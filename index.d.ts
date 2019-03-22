@@ -182,6 +182,8 @@ interface ISonosOptions {
 }
 
 interface ISonosItem {
+  id: string;
+  parentID: string | null;
   title: string; 
   uri: string;
   artist: string | null;

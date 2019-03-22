@@ -587,17 +587,19 @@ describe("SonosDevice", () => {
     } else {
       sonos = new Sonos(process.env.SONOS_HOST, 1400);
     }
-    // create playlist for unit testing
-    // const sonosPlaylistElement = await sonos.searchMusicLibrary("sonos_playlists");
+    // Create playlist for unit testing
+    // NOTE: Sonos will create new id for this, so don't delete if testing alot
     const playList = await sonos.getMusicLibrary("sonos_playlists");
-    console.log(playList);
-    if ( ! playList.items.find((i) => i.title === "_unit_testing_")  ) {
+    if (!playList.items.find((i) => i.title === "_unit_testing_")) {
       const playListElement = await sonos.createPlaylist("_unit_testing_");
-      const trackEntity = await sonos.getMusicLibrary("tracks", {total: 1});
-      if ( parseInt(trackEntity.returned, 10) < 1 ) {
+      const trackEntity = await sonos.getMusicLibrary("tracks", { total: 1 });
+      if (parseInt(trackEntity.returned, 10) < 1) {
         this.skip(); // as no tracks found
       }
-      await sonos.addToPlaylist(playListElement.AssignedObjectID.split(":")[1], trackEntity.items[0].uri);
+      await sonos.addToPlaylist(
+        playListElement.AssignedObjectID.split(":")[1],
+        trackEntity.items[0].uri,
+      );
     }
   });
 
@@ -653,8 +655,16 @@ describe("SonosDevice", () => {
   });
 
   it("should getPlaylist()", () => {
-    return sonos.getPlaylist("1").then((playlist) => {
-      assert(playlist.items, "should have items");
+    return sonos.getMusicLibrary("sonos_playlists").then((playlists) => {
+      const thePlaylist = playlists.items.find(
+        (i) => i.title === "_unit_testing_",
+      );
+      if (!thePlaylist) {
+        throw new Error("no playlist found???");
+      }
+      return sonos.getPlaylist(thePlaylist.id).then((playlist) => {
+        assert(playlist.items, "should have items");
+      });
     });
   });
 
